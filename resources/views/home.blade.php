@@ -10,6 +10,7 @@
 
             <main class="container">
                 <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
+                    {{-- afiseaza cate un post random din lista --}}
                     @if ($randomPost)
                         <div class="col-lg-6 px-0">
                             <h1 class="display-4 fst-italic">{{ $randomPost->title_post }}</h1>
@@ -26,6 +27,8 @@
 
                 <div class="row g-5">
                     <div class="col-md-8">
+
+                        {{-- filtru pentru afisarea posturilor --}}
                         <div class="show-post mt-5">
                             <div class="nav-scroller py-1 mb-3">
 
@@ -47,6 +50,8 @@
 
                             </div>
                         </div>
+                            
+                            {{-- adaugarea unui post --}}
                         <div class="add-post my-5">
                             <h4 class="text-center"> Create your post here</h4>
                             <form method="POST" action="{{ route('posts.store') }}">
@@ -74,7 +79,7 @@
                             </form>
                         </div>
                    
-
+                        {{-- afisarea ultimelor posturi --}}
                         <div class="latest-post mt-5">
                             <h4 class="text-center border-top pt-3">Latest Post</h4>
                             @foreach ($latestPosts as $post)
@@ -126,6 +131,7 @@
                                 </ol>
                             </div>
 
+                            {{-- afisarea tutror posturilor --}}
                             <div>
                                 <div>
                                     <h4 class="fst-italic">Recent posts</h4>
