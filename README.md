@@ -125,9 +125,9 @@ php artisan key:generate
 
 Executați migrările și semințele pentru a inițializa baza de date:
 
-    ```shell
-    php artisan migrate --seed
-    ```
+```shell
+ php artisan migrate --seed
+ ```
 
 ## Pasul 9: Compilează resursele JavaScript și CSS
 
@@ -141,6 +141,6 @@ npm run dev
 
 Într-un terminal nou, în directorul proiectului, porniți serverul de dezvoltare Laravel cu comanda:
 
-    ```shell
-    php artisan serve
-    ```
+```shell
+ php artisan serve
+ ```
