@@ -1,6 +1,8 @@
 {{-- afisarea tutror posturilor ce apartin autorului --}}
 
 
+@extends('layouts.app') 
+
 
 @extends('layouts.app') 
 @section('content')
