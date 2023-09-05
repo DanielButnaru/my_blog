@@ -1,3 +1,5 @@
+{{-- afisarea tutror posturilor ce apartin autorului --}}
+
 @extends('layouts.app') {{-- Utilizați șablonul dvs. de aspect aici, dacă există unul --}}
 
 @section('content')
