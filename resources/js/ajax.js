@@ -1,3 +1,7 @@
+
+// codul ajax pentru functionalitatea de filtrare pe categorie
+
+
 $(document).ready(function () {
     $(".categoryButton").click(function () {
         var category = $(this).data('category');
