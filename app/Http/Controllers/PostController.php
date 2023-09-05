@@ -43,14 +43,12 @@ class PostController extends Controller
     public function store(Request $request)
     {
         try {
-            // Validăm datele primite din formular
             $validatedData = $request->validate([
                 'title_post' => 'required|max:255',
                 'body_post' => 'required',
                 'category_post' => 'required',
             ]);
 
-            // Creăm un nou post în baza de date
             $newPost = new Post;
             $newPost->title_post = $validatedData['title_post'];
             $newPost->body_post = $validatedData['body_post'];
@@ -62,7 +60,6 @@ class PostController extends Controller
             // Redirectăm utilizatorul către pagina de afișare a postului nou creat
             return redirect()->route('posts.show', ['post' => $newPost->id]);
         } catch (\Exception $e) {
-            // Afisăm eroarea pe pagina error.blade.php
             return redirect()->route('error.page')->withErrors([$e->getMessage()]);
         }
     }
@@ -156,10 +153,10 @@ class PostController extends Controller
                 'posts' => $posts
             ]);
         } catch (\Exception $e) {
-            // Aici poți trata eroarea sau returna un răspuns de eroare mai informativ
+            
             return response()->json([
                 'error' => 'A apărut o eroare: ' . $e->getMessage()
-            ], 500); // Codul HTTP 500 indică o eroare internă de server
+            ], 500); 
         }
     }
 
