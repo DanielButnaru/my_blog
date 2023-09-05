@@ -1,4 +1,4 @@
-{{-- afisam eroarile --}}
+{{-- afisare erori ce tin de PostController--}}
 @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
