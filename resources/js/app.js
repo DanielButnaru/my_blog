@@ -1,1 +1,3 @@
+import './ajax';
 import './bootstrap';
+

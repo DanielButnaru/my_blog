@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+    //   voi adauga si ultimele 3 postari
+        $posts = Post::all();
+        $latestPosts = Post::orderBy('created_at', 'desc')->take(3)->get();
+        $randomPost = Post::inRandomOrder()->first();
+
+        $categories = ["Sport", "IT", "Economie", "Politica", "Monden", "Sanatate", "Stiinta", "Cultura", "Altele"];
+
+
+
+        return view('home', compact('posts', 'latestPosts', 'randomPost', 'categories'));
     }
 }

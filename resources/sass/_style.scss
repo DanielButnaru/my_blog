@@ -1,0 +1,44 @@
+.show-post {
+    min-height: 200px;
+    .form-inline {
+        background-color: #e5e5e5;
+        padding: 10px 0;
+        border-radius: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        .categoryButton {
+            border: none;
+            background-color: transparent;
+            color: #000;
+            transition: all ease-in-out;
+            margin: 5px 10px;
+            &:hover {
+                scale: 1.03;
+                text-decoration: underline;
+            }
+        }
+    }
+    #postsList{
+        padding: 0 10px;
+
+    }
+}
+
+.add-post{
+    box-shadow: 0 0 10px 0 rgba(0,0,0,.2);
+    padding: 20px 0;
+    border-radius: 10px;
+   form{
+        width: 80%;
+         margin: 0 auto;
+         .form-group{
+              margin-bottom: 0;
+         }
+         button{
+            display: flex;
+            margin: 10px auto;
+            
+         }
+   }
+}
