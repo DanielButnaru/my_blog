@@ -156,10 +156,10 @@ class PostController extends Controller
                 'posts' => $posts
             ]);
         } catch (\Exception $e) {
-            // Aici poți trata eroarea sau returna un răspuns de eroare mai informativ
+            
             return response()->json([
                 'error' => 'A apărut o eroare: ' . $e->getMessage()
-            ], 500); // Codul HTTP 500 indică o eroare internă de server
+            ], 500); 
         }
     }
 
