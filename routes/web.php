@@ -1,11 +1,14 @@
-
-<!-- rutele sunt protejate pentru utlizatorii neautentificati -->
 <?php 
+
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 
-// ...
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth'])->group(function () {
     // Toate rutele din acest grup vor fi protejate și accesibile doar utilizatorilor autentificați
@@ -26,11 +29,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 Route::get("/posts/category/{category}", [PostController::class, "category"]);
+
 Route::get("/error", function () {
     return view("error");
 })->name("error.page");
