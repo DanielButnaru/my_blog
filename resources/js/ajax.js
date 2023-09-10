@@ -1,7 +1,3 @@
-
-// codul ajax pentru functionalitatea de filtrare pe categorie
-
-
 $(document).ready(function () {
     $(".categoryButton").click(function () {
         var category = $(this).data('category');
@@ -9,10 +5,12 @@ $(document).ready(function () {
         $.ajax({
             type: "GET",
             url: "/posts/category/" + category,
-            data: {
-                _token: "{{ csrf_token() }}",
-                category: category,
-            },
+             data: {
+                  _token: "{{ csrf_token() }}",
+                  category: category,
+           },
+           
+            dataType: "json",
             success: function (data) {
                 var postList = $("#postsList");
                 postList.empty();
@@ -54,4 +52,3 @@ $(document).ready(function () {
         });
     });
 });
-
