@@ -17,8 +17,7 @@
                             <p class="lead my-3">{{ $randomPost->body_post }}</p>
                             <p class="lead mb-0"><a href="{{ route('posts.show', $randomPost->id) }}"
                                     class="text-body-emphasis fw-bold">Continue reading...</a></p>
-
-
+                            <img src="{{ $postImages[$randomPost->id] }}" alt="{{ $randomPost->title }}">
                         </div>
                     @endif
                 </div>
@@ -50,11 +49,11 @@
 
                             </div>
                         </div>
-                            
-                            {{-- adaugarea unui post --}}
+
+                        {{-- adaugarea unui post --}}
                         <div class="add-post my-5">
                             <h4 class="text-center"> Create your post here</h4>
-                            <form method="POST" action="{{ route('posts.store') }}">
+                            <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 @method('post')
                                 <div class="form-group">
@@ -65,6 +64,11 @@
                                 <div class="form-group">
                                     <label for="body_post">Body</label>
                                     <textarea class="form-control" id="body_post" rows="3" name="body_post"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="image_post">Image</label>
+                                    <input type="file" class="form-control" id="image_post" placeholder="Image"
+                                        name="image_post">
                                 </div>
                                 <div class="form-group">
                                     <label for="category_post">Category</label>
@@ -78,21 +82,23 @@
                                 <button type="submit" class="btn btn-primary">Create Post</button>
                             </form>
                         </div>
-                   
+
                         {{-- afisarea ultimelor posturi --}}
                         <div class="latest-post mt-5">
                             <h4 class="text-center border-top pt-3">Latest Post</h4>
                             @foreach ($latestPosts as $post)
-                            <article class="blog-post">
-                                <h2 class="display-5 link-body-emphasis mb-1">{{ $post->title_post }}</h2>
-                                <p class="blog-post-meta">
-                                    {{ $post->created_at->format('Y F d') }} by <a href="{{ route('user.posts', ['user' => $post->user->id]) }}">{{ $post->user->name }}</a>
-                                </p>
-                                <p>{{ $post->body_post }}</p>
-                            </article>
+                                <article class="blog-post">
+                                    <h2 class="display-5 link-body-emphasis mb-1">{{ $post->title_post }}</h2>
+                                    <p class="blog-post-meta">
+                                        {{ $post->created_at->format('Y F d') }} by <a
+                                            href="{{ route('user.posts', ['user' => $post->user->id]) }}">{{ $post->user->name }}</a>
+                                    </p>
+
+                                    <p>{{ $post->body_post }}</p>
+                                </article>
                             @endforeach
                         </div>
-                        
+
 
 
                     </div>
@@ -106,26 +112,34 @@
 
                                 <ol>
                                     <li>
-                                        <strong>Crearea unui Post Nou</strong>: Utilizatorii pot crea și publica posturi noi pe platformă,
+                                        <strong>Crearea unui Post Nou</strong>: Utilizatorii pot crea și publica posturi noi
+                                        pe platformă,
                                         oferind informații și păreri despre subiectele care îi interesează.
                                     </li>
                                     <li>
-                                        <strong>Editarea și Ștergerea Posturilor</strong>: Utilizatorii au dreptul de a edita și șterge doar
+                                        <strong>Editarea și Ștergerea Posturilor</strong>: Utilizatorii au dreptul de a
+                                        edita și șterge doar
                                         posturile create de ei, ceea ce asigură controlul asupra conținutului personal.
                                     </li>
                                     <li>
-                                        <strong>Cele Mai Noi 3 Posturi</strong>: Pe pagina principală, cele mai recente trei posturi sunt
-                                        evidențiate, permițând utilizatorilor să le vadă rapid și să exploreze subiectele proaspete.
+                                        <strong>Cele Mai Noi 3 Posturi</strong>: Pe pagina principală, cele mai recente trei
+                                        posturi sunt
+                                        evidențiate, permițând utilizatorilor să le vadă rapid și să exploreze subiectele
+                                        proaspete.
                                     </li>
                                     <li>
-                                        <strong>Listă Completă de Posturi</strong>: O secțiune dedicată care afișează toate posturile
-                                        disponibile pe platformă, permițând utilizatorilor să răsfoiască conținutul în detaliu.
+                                        <strong>Listă Completă de Posturi</strong>: O secțiune dedicată care afișează toate
+                                        posturile
+                                        disponibile pe platformă, permițând utilizatorilor să răsfoiască conținutul în
+                                        detaliu.
                                     </li>
                                     <li>
-                                        <strong>Posturi Asociate Proprietarului</strong>: O secțiune care prezintă toate posturile create de un utilizator
+                                        <strong>Posturi Asociate Proprietarului</strong>: O secțiune care prezintă toate
+                                        posturile create de un utilizator
                                     </li>
                                     <li>
-                                        <strong>Căutare pe Baza Categoriei</strong>: Utilizatorii pot selecta o categorie specifică și vor
+                                        <strong>Căutare pe Baza Categoriei</strong>: Utilizatorii pot selecta o categorie
+                                        specifică și vor
                                         vedea toate posturile care se încadrează în acea categorie.
                                     </li>
                                 </ol>
@@ -137,20 +151,33 @@
                                     <h4 class="fst-italic">Recent posts</h4>
                                     <ul class="list-unstyled">
                                         @foreach ($posts as $post)
-                                            <li>
+
+                                        <li>
+                                            <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="{{ route('posts.show', $post->id) }}">
+                                              <img src="{{ $postImages[$post->id] }}" class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                              <div class="col-lg-8">
+                                                <h6 class="mb-0">{{ $post->title_post }}</h6>
+                                                <small class="text-body-secondary">{{ $post->created_at->format('Y F d') }}</small>
+                                              </div>
+                                            </a>
+                                          </li>
+                                            {{-- <li>
                                                 <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
                                                     href="{{ route('posts.show', $post->id) }}">
-                                                    <svg class="bd-placeholder-img" width="100%" height="96"
-                                                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
-                                                        preserveAspectRatio="xMidYMid slice" focusable="false">
-                                                        <rect width="100%" height="100%" fill="#777"></rect>
-                                                    </svg>
-                                                    <div class="col-lg-8">
-                                                        <h6 class="mb-0">{{ $post->title_post }}</h6>
-                                                        <small class="text-body-secondary">{{ $post->updated_at }}</small>
-                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        @if (isset($postImages[$post->id]))
+                                                            <img src="{{ $postImages[$post->id] }}"
+                                                                alt="{{ $post->title }}" height="100px" width="auto">
+                                                        @else
+                                                            <p>Imaginea nu este disponibilă.</p>
+                                                        @endif
+                                                        <div class="col-lg-8">
+                                                            <h6 class="mb-0">{{ $post->title_post }}</h6>
+                                                            <small
+                                                                class="text-body-secondary">{{ $post->updated_at }}</small>
+                                                        </div>
                                                 </a>
-                                            </li>
+                                            </li> --}}
                                         @endforeach
                                     </ul>
 
