@@ -31,14 +31,7 @@ $(document).ready(function () {
                         postHtml += '</a>';
                         postHtml += '</div>';
                         postHtml += '<div class="col-auto d-none d-lg-block">';
-                        postHtml += '<svg class="bd-placeholder-img" width="200" height="auto"';
-                        postHtml += 'xmlns="http://www.w3.org/2000/svg" role="img"';
-                        postHtml += 'aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"';
-                        postHtml += 'focusable="false">';
-                        postHtml += '<title>Placeholder</title>';
-                        postHtml += '<rect width="100%" height="100%" fill="#55595c"></rect>';
-                        postHtml += '<text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>';
-                        postHtml += '</svg>';
+                        postHtml += '<img src="{{ $postImages[$post->id] }}" class="bd-placeholder-img" width="200" height="250" alt="Post image">';
                         postHtml += '</div>';
                         postHtml += '</div>';
                         postHtml += '</div>';

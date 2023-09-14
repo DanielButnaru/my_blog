@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
+
+
 
 class PostController extends Controller
 {
@@ -16,7 +20,7 @@ class PostController extends Controller
             $posts = Post::all();
             $latestPosts = Post::orderBy('created_at', 'desc')->take(3)->get();
             $randomPost = Post::inRandomOrder()->first();
-           
+
             return view('posts.index', compact('posts', 'latestPosts', 'randomPost'));
         } catch (\Exception $e) {
             return redirect()->route('error.page')->withErrors([$e->getMessage()]);
@@ -47,22 +51,30 @@ class PostController extends Controller
                 'title_post' => 'required|max:255',
                 'body_post' => 'required',
                 'category_post' => 'required',
+                'image_post' => 'required|image|mimes:jpeg,png,jpg,gif,svg'
             ]);
-
+    
+            $originalImageName = $request->file('image_post')->getClientOriginalName();
+            $imageContent = file_get_contents($request->file('image_post')->path());
+    
+            Storage::disk('dropbox')->put('blog_images/' . $originalImageName, $imageContent);
+    
             $newPost = new Post;
             $newPost->title_post = $validatedData['title_post'];
             $newPost->body_post = $validatedData['body_post'];
             $newPost->category_post = $validatedData['category_post'];
             $newPost->user_id = auth()->user()->id;
-
+            $newPost->image_post = $originalImageName;
+    
             $newPost->save();
-
+    
             // Redirectăm utilizatorul către pagina de afișare a postului nou creat
             return redirect()->route('posts.show', ['post' => $newPost->id]);
         } catch (\Exception $e) {
             return redirect()->route('error.page')->withErrors([$e->getMessage()]);
         }
     }
+    
 
     /**
      * Display the specified resource.
@@ -70,13 +82,16 @@ class PostController extends Controller
     public function show(Post $post)
     {
         try {
-            
-            return view('posts.show', compact('post'));
+            $image = Storage::disk('dropbox')->get('blog_images/' . $post->image_post);
+            $image = base64_encode($image);
+            $image = 'data:image/jpeg;base64,' . $image;
+
+            return view('posts.show', compact('post', 'image'));
+            return $image;
         } catch (\Exception $e) {
             return redirect()->route('error.page')->withErrors([$e->getMessage()]);
         }
     }
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -133,8 +148,10 @@ class PostController extends Controller
             if ($post->user_id != auth()->user()->id) {
                 session()->flash('errorMessage', 'You are not allowed to delete this post!');
                 return redirect()->route('home')->with(['showAlert' => true]);
-            }else{
+            } else {
                 $post->delete();
+                // stergem si imaginea din storage
+                Storage::disk('dropbox')->delete('blog_images/' . $post->image_post);
                 return redirect()->route('home');
             }
         } catch (\Exception $e) {
@@ -153,14 +170,11 @@ class PostController extends Controller
                 'posts' => $posts
             ]);
         } catch (\Exception $e) {
-            
+
             return response()->json([
                 'error' => 'A apărut o eroare: ' . $e->getMessage()
-            ], 500); 
+            ], 500);
         }
     }
-    
-
-
-
 }
+

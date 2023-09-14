@@ -5,6 +5,11 @@
         <div class="row">
             <div class="col-md-12 text-center">
                 <h1>{{ $post->title_post }}</h1>
+                @if ($image)
+                <img src="{{$image }}" alt="{{ $post->title_post }}" style="max-width: 100%; height: auto;">
+            @else
+                <p>Imaginea nu este disponibilă.</p>
+            @endif
                 <p>{{ $post->body_post }}</p>
                 <hr>
                 <p>Posted In: {{ $post->category_post }}</p>
