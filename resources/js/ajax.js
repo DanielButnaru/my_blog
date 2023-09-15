@@ -4,7 +4,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "/posts/category/" + category,
+            url: "/posts/category" + category,
              data: {
                   _token: "{{ csrf_token() }}",
                   category: category,

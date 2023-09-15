@@ -17,11 +17,23 @@ class PostController extends Controller
     public function index()
     {
         try {
+            $categories = ["Sport", "IT", "Economie", "Politica", "Monden", "Sanatate", "Stiinta", "Cultura", "Altele"];
             $posts = Post::all();
+            foreach ($posts as $post) {
+                try {
+                    $image = Storage::disk('dropbox')->get('blog_images/' . $post->image_post);
+                    $image = base64_encode($image);
+                    $image = 'data:image/jpeg;base64,' . $image;
+                    $postImages[$post->id] = $image;
+                } catch (\Exception $e) {
+                    // Poți trata eroarea aici sau lăsa elementul gol
+                    $postImages[$post->id] = '';
+                }
+            }
             $latestPosts = Post::orderBy('created_at', 'desc')->take(3)->get();
             $randomPost = Post::inRandomOrder()->first();
 
-            return view('posts.index', compact('posts', 'latestPosts', 'randomPost'));
+            return view('posts.index', compact('posts', 'latestPosts', 'randomPost', 'postImages', 'categories'));
         } catch (\Exception $e) {
             return redirect()->route('error.page')->withErrors([$e->getMessage()]);
         }
@@ -53,28 +65,28 @@ class PostController extends Controller
                 'category_post' => 'required',
                 'image_post' => 'required|image|mimes:jpeg,png,jpg,gif,svg'
             ]);
-    
+
             $originalImageName = $request->file('image_post')->getClientOriginalName();
             $imageContent = file_get_contents($request->file('image_post')->path());
-    
+
             Storage::disk('dropbox')->put('blog_images/' . $originalImageName, $imageContent);
-    
+
             $newPost = new Post;
             $newPost->title_post = $validatedData['title_post'];
             $newPost->body_post = $validatedData['body_post'];
             $newPost->category_post = $validatedData['category_post'];
             $newPost->user_id = auth()->user()->id;
             $newPost->image_post = $originalImageName;
-    
+
             $newPost->save();
-    
+
             // Redirectăm utilizatorul către pagina de afișare a postului nou creat
             return redirect()->route('posts.show', ['post' => $newPost->id]);
         } catch (\Exception $e) {
             return redirect()->route('error.page')->withErrors([$e->getMessage()]);
         }
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -176,5 +188,29 @@ class PostController extends Controller
             ], 500);
         }
     }
-}
 
+    public function showPostsByCategory(Post $posts)
+    {
+        try {
+
+           
+    
+            $category = request()->route('category');
+            $posts = Post::where('category_post', $category)->get();
+            foreach ($posts as $post) {
+                try {
+                    $image = Storage::disk('dropbox')->get('blog_images/' . $post->image_post);
+                    $image = base64_encode($image);
+                    $image = 'data:image/jpeg;base64,' . $image;
+                    $postImages[$post->id] = $image;
+                } catch (\Exception $e) {
+                    // Poți trata eroarea aici sau lăsa elementul gol
+                    $postImages[$post->id] = '';
+                }
+            }
+            return view('posts.category', compact('posts', 'category', 'postImages'));
+        } catch (\Exception $e) {
+            return redirect()->route('error.page')->withErrors([$e->getMessage()]);
+        }
+    }
+}

@@ -29,7 +29,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get("/posts/category/{category}", [PostController::class, "category"]);
+Route::get("/posts/category{categories}", [PostController::class, "category"]);
+Route::get("/posts/category/{category}", [PostController::class, "showPostsByCategory"])->name("posts.by.category");
 
 Route::get("/error", function () {
     return view("error");
