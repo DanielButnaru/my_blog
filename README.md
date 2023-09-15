@@ -109,6 +109,15 @@ Adăugați Laravel UI la proiect pentru a gestiona autentificarea și stilizarea
 composer require laravel/ui
 ```
 
+## Pasul 6: Instaleaza driverul dropbox
+
+Instalați driverul dropbox pentru a putea folosi funcționalitatea de upload a imaginilor:
+
+```shell
+composer require spatie/flysystem-dropbox
+```
+
+
 ## Pasul 6: Creează fișierul .env
 
 Dacă nu există deja, creați un fișier `.env` în directorul principal al proiectului și copiați conținutul din `.env.example` în `.env`. Apoi, creati si înlocuiți numele bazei de date cu numele bazei dvs de date în fișierul `.env.`
