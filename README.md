@@ -109,11 +109,19 @@ Adăugați Laravel UI la proiect pentru a gestiona autentificarea și stilizarea
 composer require laravel/ui
 ```
 
-## Pasul 6: Creează fișierul .env
+## Pasul 6: Instaleaza driverul dropbox
+
+Instalați driverul dropbox pentru a putea folosi funcționalitatea de upload a imaginilor:
+
+```shell
+composer require spatie/flysystem-dropbox
+```
+
+## Pasul 7: Creează fișierul .env
 
 Dacă nu există deja, creați un fișier `.env` în directorul principal al proiectului și copiați conținutul din `.env.example` în `.env`. Apoi, creati si înlocuiți numele bazei de date cu numele bazei dvs de date în fișierul `.env.`
 
-## Pasul 7: Generează cheia de criptare
+## Pasul 8: Generează cheia de criptare
 
 Folosiți comanda Laravel pentru a genera o cheie de criptare pentru aplicația dvs:
 
@@ -121,7 +129,7 @@ Folosiți comanda Laravel pentru a genera o cheie de criptare pentru aplicația 
 php artisan key:generate
 ```
 
-## Pasul 8: Rulează migrările și semințele
+## Pasul 9: Rulează migrările și semințele
 
 Executați migrările și semințele pentru a inițializa baza de date:
 
@@ -129,7 +137,7 @@ Executați migrările și semințele pentru a inițializa baza de date:
  php artisan migrate --seed
  ```
 
-## Pasul 9: Compilează resursele JavaScript și CSS
+## Pasul 10: Compilează resursele JavaScript și CSS
 
 Compilează resursele JavaScript și CSS cu ajutorul npm:
 
@@ -137,7 +145,7 @@ Compilează resursele JavaScript și CSS cu ajutorul npm:
 npm run dev
 ```
 
-## Pasul 10: Porniți serverul de dezvoltare Laravel
+## Pasul 11: Porniți serverul de dezvoltare Laravel
 
 Într-un terminal nou, în directorul proiectului, porniți serverul de dezvoltare Laravel cu comanda:
 
